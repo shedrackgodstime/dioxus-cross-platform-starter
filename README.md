@@ -39,8 +39,9 @@ The workspace keeps standalone web and full-stack web builds separate. `make bui
 ## Common commands
 
 ```sh
-make serve-web             # Web SPA
-make serve-web-server      # Full-stack web app with SSR/server functions
+make serve-web             # Standalone browser client only; run serve-server separately for APIs
+make serve-fullstack       # Full-stack web app with SSR/server functions and Dioxus HMR
+make serve-server          # Full-stack server process without the Dioxus dev server
 make serve-desktop
 make serve-android
 make serve-ios             # Requires macOS/Xcode

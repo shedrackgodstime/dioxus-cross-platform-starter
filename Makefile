@@ -72,12 +72,14 @@ help:
 	@echo " Dioxus Cross-Platform Starter (Web, Desktop, Mobile & Fullstack)"
 	@echo "=========================================================================================="
 	@echo "1. Web Alone (Pure Client SPA):"
-	@echo "  make serve-web           - Run Web client with devserver (Points to $(CLIENT_DESKTOP_URL))"
+	@echo "  make serve-web           - Run standalone Web client only (no backend; API points to $(CLIENT_DESKTOP_URL))"
 	@echo "  make build-web           - Build standalone Web SPA bundle (Release -> Points to $(CLIENT_PROD_URL))"
 	@echo "  make build-web-debug     - Build standalone Web SPA bundle (Debug -> Points to $(CLIENT_DESKTOP_URL))"
 	@echo ""
 	@echo "2. Web + Server Together (Fullstack SSR + Server Functions):"
-	@echo "  make serve-web-server    - Run Fullstack Web + Server on $(DEV_BIND_IP):$(PORT) (Debug)"
+	@echo "  make serve-fullstack     - Run Fullstack Web + Server with Dioxus HMR on $(DEV_BIND_IP):$(PORT)"
+	@echo "  make serve-web-server    - Alias for serve-fullstack"
+	@echo "  make serve-server        - Run the fullstack server binary directly (no Dioxus HMR/browser watcher)"
 	@echo "  make build-web-server    - Build combined Web client assets + Fullstack binary (Release)"
 	@echo "  make build-web-server-debug - Build combined Web client + Fullstack binary (Debug)"
 	@echo ""
@@ -120,7 +122,7 @@ help:
 # ----------------------------------------------------------------------------
 
 serve-web:
-	IP=$(DEV_BIND_IP) PORT=$(PORT) STARTER_SERVER_URL="$(CLIENT_DESKTOP_URL)" dx serve --package starter-web --platform web --addr $(DEV_BIND_IP) --port $(PORT) $(DX_LOCKED)
+	STARTER_SERVER_URL="$(CLIENT_DESKTOP_URL)" dx serve --package starter-web-client --platform web --addr $(DEV_BIND_IP) --port $(PORT) $(DX_LOCKED)
 
 serve-web-only: serve-web
 
@@ -131,12 +133,15 @@ build-web-debug:
 	STARTER_SERVER_URL="$(CLIENT_DESKTOP_URL)" dx build --package starter-web-client --platform web $(DX_LOCKED)
 
 # ----------------------------------------------------------------------------
-# 2. Fullstack server aliases
+# 2. Fullstack development modes
 # ----------------------------------------------------------------------------
 
-serve-server: serve-web-server
+# Run the deployable fullstack binary directly. This does not start the Dioxus
+# dev server, live reload, or browser watcher.
+serve-server:
+	IP=$(DEV_BIND_IP) PORT=$(PORT) cargo run --package starter-web --features server $(DX_LOCKED)
 
-serve-server-debug: serve-web-server
+serve-server-debug: serve-server
 
 build-server: build-web-server
 
