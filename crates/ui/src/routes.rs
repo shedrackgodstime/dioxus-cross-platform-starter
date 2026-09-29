@@ -18,7 +18,7 @@ fn AppLayout() -> Element {
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "icon", href: LOGO_SVG }
         document::Style {
-            "html, body {{ background-color: #020617 !important; color: #f8fafc; margin: 0; padding: 0; }} html[data-theme='light'] body {{ background-color: #f8fafc !important; color: #0f172a; }} html[data-theme='light'] .app-shell {{ background-color: #f8fafc !important; color: #0f172a; }} svg {{ width: 1.25rem; height: 1.25rem; }}"
+            "html, body {{ background-color: #020617 !important; color: #f8fafc; margin: 0; padding: 0; }} html[data-theme='light'] body {{ background-color: #f8fafc !important; color: #0f172a; }} html[data-theme='light'] .app-shell {{ background-color: #f8fafc !important; color: #0f172a; }} html[data-theme='light'] .bg-slate-950 {{ background-color: #f8fafc !important; }} html[data-theme='light'] .bg-slate-900 {{ background-color: #ffffff !important; }} html[data-theme='light'] .text-slate-100, html[data-theme='light'] .text-white {{ color: #0f172a !important; }} html[data-theme='light'] .text-slate-300 {{ color: #334155 !important; }} html[data-theme='light'] .text-slate-400 {{ color: #475569 !important; }} html[data-theme='light'] .text-slate-500 {{ color: #64748b !important; }} html[data-theme='light'] .border-slate-800, html[data-theme='light'] .border-slate-800\\/80 {{ border-color: #e2e8f0 !important; }} svg {{ width: 1.25rem; height: 1.25rem; }}"
         }
 
         div { class: "app-shell min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-500/30",
