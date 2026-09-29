@@ -5328,6 +5328,7 @@ name = "starter-server"
 version = "0.1.0"
 dependencies = [
  "dotenvy",
+ "http",
  "reqwest",
  "ring",
  "serde",
@@ -5335,6 +5336,7 @@ dependencies = [
  "starter-core",
  "thiserror 2.0.21",
  "tokio",
+ "tower-http",
  "tracing",
 ]
 
@@ -5358,6 +5360,7 @@ dependencies = [
  "serde_json",
  "starter-api",
  "starter-core",
+ "starter-server",
  "starter-ui",
  "tokio",
  "tracing",

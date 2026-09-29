@@ -7,6 +7,29 @@ pub const DEFAULT_LOCALHOST_URL: &str = "http://127.0.0.1:8080";
 /// Single source of truth debug server URL for all native targets.
 pub const DEBUG_SERVER_URL: &str = "http://10.0.2.2:8080";
 
+/// Validate and normalize an API base URL supplied by a launcher or build.
+/// Relative paths are supported for same-origin fullstack deployments.
+pub fn validate_server_url(value: &str) -> Result<String, String> {
+    let value = value.trim();
+    if value.is_empty() || value.chars().any(char::is_whitespace) {
+        return Err("API server URL must be non-empty and contain no whitespace".into());
+    }
+    if value.starts_with('/') && !value.starts_with("//") {
+        return Ok(value.trim_end_matches('/').to_string());
+    }
+    if !(value.starts_with("http://") || value.starts_with("https://")) {
+        return Err("API server URL must use http://, https://, or a same-origin path".into());
+    }
+    let authority = value
+        .split_once("://")
+        .and_then(|(_, rest)| rest.split('/').next())
+        .unwrap_or_default();
+    if authority.is_empty() || authority.contains('*') {
+        return Err("API server URL must include a concrete host".into());
+    }
+    Ok(value.trim_end_matches('/').to_string())
+}
+
 /// Centralized application configuration.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct AppConfig {
@@ -114,6 +137,17 @@ mod tests {
         assert_eq!(config.server.default_port, 8080);
         assert_eq!(config.server.localhost_url, "http://127.0.0.1:8080");
         assert_eq!(config.server.android_emulator_url, "http://10.0.2.2:8080");
+    }
+
+    #[test]
+    fn validate_server_url_accepts_remote_and_same_origin_values() {
+        assert_eq!(
+            validate_server_url("https://api.example.com/").unwrap(),
+            "https://api.example.com"
+        );
+        assert_eq!(validate_server_url("/api/").unwrap(), "/api");
+        assert!(validate_server_url("ftp://api.example.com").is_err());
+        assert!(validate_server_url("https://").is_err());
     }
 
     #[test]

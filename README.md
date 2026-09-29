@@ -51,7 +51,9 @@ make fmt-check
 make test
 ```
 
-Use `SERVER_URL`, `DEV_ANDROID_URL`, `ANDROID_HOME`, and `ANDROID_NDK_HOME` to configure local environments. The Android emulator default is `10.0.2.2`; a physical mobile device needs a host address reachable on its network. Standalone production client builds require `PROD_SERVER_URL` or an explicit `SERVER_URL`; full-stack web builds use the same origin.
+Use `SERVER_URL`, `DEV_ANDROID_URL`, `ANDROID_HOME`, and `ANDROID_NDK_HOME` to configure local environments. The Android emulator default is `10.0.2.2`; a physical mobile device needs a host address reachable on its network. Standalone web builds use `SERVER_URL` as their remote API base; desktop and mobile resolve the URL from persisted `server_url`, `STARTER_SERVER_URL`, and their platform default. Full-stack web builds use the same origin unless configured otherwise.
+
+For a web client hosted on a different domain, set `CORS_ALLOWED_ORIGINS` on the full-stack server to a comma-separated list such as `https://app.example.com`. The server enables credentials and rejects wildcard origins, malformed origins, and origins with a trailing slash. Leave it empty for same-origin-only deployments.
 
 ## Configuration and secrets
 

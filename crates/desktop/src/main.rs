@@ -117,6 +117,13 @@ fn main() {
         std::env::var("STARTER_SERVER_URL").ok(),
         option_env!("STARTER_SERVER_URL"),
     );
+    let server_url = match starter_core::validate_server_url(&server_url) {
+        Ok(url) => url,
+        Err(error) => {
+            eprintln!("invalid API server URL: {error}; using localhost");
+            starter_core::DEFAULT_LOCALHOST_URL.to_string()
+        }
+    };
     let server_url_static: &'static str = Box::leak(server_url.clone().into_boxed_str());
     dioxus::fullstack::set_server_url(server_url_static);
 

@@ -85,18 +85,25 @@ impl KeyValueStore for WebStorage {
 #[component]
 fn BrowserApp() -> Element {
     let target = PlatformTarget::Web;
-    let server_url = option_env!("STARTER_SERVER_URL")
+    let configured_url = option_env!("STARTER_SERVER_URL")
         .map(str::trim)
         .filter(|url| !url.is_empty());
+    let server_url = configured_url
+        .map(starter_core::validate_server_url)
+        .transpose()
+        .unwrap_or_else(|error| {
+            tracing::error!("invalid STARTER_SERVER_URL: {error}");
+            None
+        });
 
     #[cfg(feature = "standalone")]
-    if let Some(url) = server_url {
+    if let Some(url) = server_url.as_deref() {
         starter_api::set_client_base_url(url.to_string());
     }
 
     use_context_provider(|| PlatformContext {
         target,
-        server_url: server_url.unwrap_or("/").to_string(),
+        server_url: server_url.unwrap_or_else(|| "/".to_string()),
         storage: Arc::new(WebStorage),
     });
 

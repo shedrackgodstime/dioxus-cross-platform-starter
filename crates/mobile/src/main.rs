@@ -182,6 +182,13 @@ fn main() {
         None,
         option_env!("STARTER_SERVER_URL"),
     );
+    let server_url = match starter_core::validate_server_url(&server_url) {
+        Ok(url) => url,
+        Err(error) => {
+            log::error!("invalid API server URL: {error}; using platform default");
+            starter_core::AppConfig::resolve_server_url(&target, None, None, None)
+        }
+    };
     let server_url_static: &'static str = Box::leak(server_url.clone().into_boxed_str());
     dioxus::fullstack::set_server_url(server_url_static);
 
