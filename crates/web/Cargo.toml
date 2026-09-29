@@ -1,0 +1,35 @@
+[package]
+name = "starter-web"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "starter-web"
+path = "src/main.rs"
+
+[dependencies]
+dioxus = { workspace = true, features = ["launch", "fullstack"] }
+starter-ui = { workspace = true }
+starter-core = { workspace = true }
+starter-api = { workspace = true }
+tracing = { workspace = true }
+serde_json = { workspace = true }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tokio = { workspace = true }
+dotenvy = { workspace = true }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+dioxus = { workspace = true, features = ["web"] }
+web-sys = { workspace = true }
+
+[features]
+default = []
+web = ["dioxus/web"]
+server = [
+    "dioxus/server",
+    "starter-api/server",
+]

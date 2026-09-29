@@ -98,10 +98,7 @@ jobs:
       - uses: android-actions/setup-android@v3
         with:
           packages: |
-            platform-tools
-            platforms;android-36
-            build-tools;36.0.0
-            ndk;27.3.13750724
+            platform-tools,platforms;android-36,build-tools;36.0.0,ndk;27.3.13750724
 
       - name: Install Dioxus CLI
         run: cargo install dioxus-cli --version 0.7.10 --locked

@@ -1,0 +1,20 @@
+[package]
+name = "starter-api"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+starter-core = { workspace = true }
+dioxus = { workspace = true, features = ["fullstack"] }
+serde = { workspace = true }
+starter-server = { workspace = true, optional = true }
+
+[features]
+default = []
+server = [
+    "dioxus/server",
+    "dep:starter-server",
+]

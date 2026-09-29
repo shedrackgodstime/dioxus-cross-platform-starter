@@ -1,0 +1,22 @@
+[package]
+name = "starter-desktop"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "starter-desktop"
+path = "src/main.rs"
+
+[dependencies]
+dioxus = { workspace = true, features = ["desktop"] }
+starter-ui = { workspace = true }
+starter-core = { workspace = true }
+starter-api = { workspace = true }
+directories = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@source "./crates/**/*.{rs,html,css}";
+@source "./public/**/*.{html,css,js}";
+
+:root {
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
+  --color-surface: #020617;
+  --color-surface-card: #0f172a;
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-border: #1e293b;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button, a {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
