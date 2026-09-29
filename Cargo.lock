@@ -5275,7 +5275,9 @@ name = "starter-api"
 version = "0.1.0"
 dependencies = [
  "dioxus",
+ "gloo-net",
  "serde",
+ "serde_json",
  "starter-core",
  "starter-server",
 ]
@@ -5354,6 +5356,7 @@ dependencies = [
  "dioxus",
  "dotenvy",
  "serde_json",
+ "starter-api",
  "starter-core",
  "starter-ui",
  "tokio",

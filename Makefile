@@ -72,7 +72,7 @@ help:
 	@echo " Dioxus Cross-Platform Starter (Web, Desktop, Mobile & Fullstack)"
 	@echo "=========================================================================================="
 	@echo "1. Web Alone (Pure Client SPA):"
-	@echo "  make serve-web           - Run standalone Web client only (no backend; API points to $(CLIENT_DESKTOP_URL))"
+	@echo "  make serve-web           - Run standalone Web client with API base $(CLIENT_DESKTOP_URL)"
 	@echo "  make build-web           - Build standalone Web SPA bundle (Release -> Points to $(CLIENT_PROD_URL))"
 	@echo "  make build-web-debug     - Build standalone Web SPA bundle (Debug -> Points to $(CLIENT_DESKTOP_URL))"
 	@echo ""

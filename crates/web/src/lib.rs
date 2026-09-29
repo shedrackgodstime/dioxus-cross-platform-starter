@@ -89,6 +89,11 @@ fn BrowserApp() -> Element {
         .map(str::trim)
         .filter(|url| !url.is_empty());
 
+    #[cfg(feature = "standalone")]
+    if let Some(url) = server_url {
+        starter_api::set_client_base_url(url.to_string());
+    }
+
     use_context_provider(|| PlatformContext {
         target,
         server_url: server_url.unwrap_or("/").to_string(),

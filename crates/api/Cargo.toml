@@ -9,7 +9,9 @@ license.workspace = true
 [dependencies]
 starter-core = { workspace = true }
 dioxus = { workspace = true, features = ["fullstack"], optional = true }
+gloo-net = { workspace = true, optional = true }
 serde = { workspace = true }
+serde_json = { workspace = true }
 starter-server = { workspace = true, optional = true }
 
 [features]
@@ -20,3 +22,4 @@ server = [
     "dep:starter-server",
 ]
 fullstack = ["dep:dioxus"]
+web-client = ["dep:gloo-net"]

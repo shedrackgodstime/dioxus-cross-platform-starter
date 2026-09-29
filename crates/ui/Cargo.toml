@@ -16,3 +16,4 @@ serde_json = { workspace = true }
 [features]
 default = ["fullstack"]
 fullstack = ["dep:starter-api", "starter-api/fullstack"]
+web-client = ["dep:starter-api", "starter-api/web-client"]

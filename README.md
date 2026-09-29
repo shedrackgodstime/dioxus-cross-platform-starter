@@ -39,7 +39,7 @@ The workspace keeps standalone web and full-stack web builds separate. `make bui
 ## Common commands
 
 ```sh
-make serve-web             # Standalone browser client only; run serve-server separately for APIs
+make serve-web             # Standalone browser client; configure its remote API with SERVER_URL
 make serve-fullstack       # Full-stack web app with SSR/server functions and Dioxus HMR
 make serve-server          # Full-stack server process without the Dioxus dev server
 make serve-desktop

@@ -55,6 +55,7 @@ web-sys = { version = "0.3", features = [
     "Element",
     "Navigator",
 ] }
+gloo-net = { version = "0.6", features = ["http", "json"] }
 
 # Desktop Platform
 directories = "6"

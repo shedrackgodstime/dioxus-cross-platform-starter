@@ -1,18 +1,18 @@
 use crate::components::Card;
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use crate::state::PlatformContext;
 use dioxus::prelude::*;
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use starter_core::ServerStatus;
 
 #[component]
 pub fn SystemInfo() -> Element {
-    #[cfg(feature = "fullstack")]
+    #[cfg(any(feature = "fullstack", feature = "web-client"))]
     {
         return rsx! { FullstackSystemInfo {} };
     }
 
-    #[cfg(not(feature = "fullstack"))]
+    #[cfg(not(any(feature = "fullstack", feature = "web-client")))]
     rsx! {
         div { class: "space-y-6 max-w-4xl mx-auto",
             h2 { class: "text-2xl font-bold text-white", "System & Runtime Diagnostics" }
@@ -23,7 +23,7 @@ pub fn SystemInfo() -> Element {
     }
 }
 
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 #[component]
 fn FullstackSystemInfo() -> Element {
     let platform = use_context::<PlatformContext>();

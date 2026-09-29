@@ -1,25 +1,25 @@
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use crate::components::badge::Badge;
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use crate::components::button::{Button, ButtonVariant};
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use crate::components::card::Card;
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use crate::components::icon::{Icon, IconKind};
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use crate::routes::Route;
 use dioxus::prelude::*;
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 use starter_core::{PaymentPlan, PaymentVerificationResult};
 
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum SelectedPlanType {
     Basic,
     Premium,
 }
 
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 #[derive(Clone, PartialEq, Debug)]
 pub enum CheckoutStep {
     SelectPlan,
@@ -41,12 +41,12 @@ pub enum CheckoutStep {
 
 #[component]
 pub fn Checkout() -> Element {
-    #[cfg(feature = "fullstack")]
+    #[cfg(any(feature = "fullstack", feature = "web-client"))]
     {
         return rsx! { FullstackCheckout {} };
     }
 
-    #[cfg(not(feature = "fullstack"))]
+    #[cfg(not(any(feature = "fullstack", feature = "web-client")))]
     rsx! {
         div { class: "mx-auto max-w-3xl space-y-4",
             h1 { class: "text-2xl font-bold text-white", "Checkout" }
@@ -55,7 +55,7 @@ pub fn Checkout() -> Element {
     }
 }
 
-#[cfg(feature = "fullstack")]
+#[cfg(any(feature = "fullstack", feature = "web-client"))]
 #[component]
 fn FullstackCheckout() -> Element {
     let mut selected_plan = use_signal(|| SelectedPlanType::Premium);
