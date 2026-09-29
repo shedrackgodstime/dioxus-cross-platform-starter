@@ -8,13 +8,15 @@ license.workspace = true
 
 [dependencies]
 starter-core = { workspace = true }
-dioxus = { workspace = true, features = ["fullstack"] }
+dioxus = { workspace = true, features = ["fullstack"], optional = true }
 serde = { workspace = true }
 starter-server = { workspace = true, optional = true }
 
 [features]
 default = []
 server = [
+    "fullstack",
     "dioxus/server",
     "dep:starter-server",
 ]
+fullstack = ["dep:dioxus"]

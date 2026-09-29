@@ -89,11 +89,6 @@ fn BrowserApp() -> Element {
         .map(str::trim)
         .filter(|url| !url.is_empty());
 
-    #[cfg(target_arch = "wasm32")]
-    if let Some(url) = server_url {
-        dioxus::fullstack::set_server_url(Box::leak(url.to_string().into_boxed_str()));
-    }
-
     use_context_provider(|| PlatformContext {
         target,
         server_url: server_url.unwrap_or("/").to_string(),

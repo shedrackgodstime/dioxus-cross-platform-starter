@@ -1,10 +1,31 @@
 use crate::components::Card;
+#[cfg(feature = "fullstack")]
 use crate::state::PlatformContext;
 use dioxus::prelude::*;
+#[cfg(feature = "fullstack")]
 use starter_core::ServerStatus;
 
 #[component]
 pub fn SystemInfo() -> Element {
+    #[cfg(feature = "fullstack")]
+    {
+        return rsx! { FullstackSystemInfo {} };
+    }
+
+    #[cfg(not(feature = "fullstack"))]
+    rsx! {
+        div { class: "space-y-6 max-w-4xl mx-auto",
+            h2 { class: "text-2xl font-bold text-white", "System & Runtime Diagnostics" }
+            Card { title: "Backend Server Telemetry".to_string(),
+                p { class: "text-sm text-slate-400", "This standalone web client has no embedded server functions. Configure an API client for your project when you need backend access." }
+            }
+        }
+    }
+}
+
+#[cfg(feature = "fullstack")]
+#[component]
+fn FullstackSystemInfo() -> Element {
     let platform = use_context::<PlatformContext>();
     let mut server_status = use_signal(|| None::<ServerStatus>);
     let mut status_error = use_signal(|| None::<String>);

@@ -5354,7 +5354,6 @@ dependencies = [
  "dioxus",
  "dotenvy",
  "serde_json",
- "starter-api",
  "starter-core",
  "starter-ui",
  "tokio",

@@ -1,17 +1,25 @@
+#[cfg(feature = "fullstack")]
 use crate::components::badge::Badge;
+#[cfg(feature = "fullstack")]
 use crate::components::button::{Button, ButtonVariant};
+#[cfg(feature = "fullstack")]
 use crate::components::card::Card;
+#[cfg(feature = "fullstack")]
 use crate::components::icon::{Icon, IconKind};
+#[cfg(feature = "fullstack")]
 use crate::routes::Route;
 use dioxus::prelude::*;
+#[cfg(feature = "fullstack")]
 use starter_core::{PaymentPlan, PaymentVerificationResult};
 
+#[cfg(feature = "fullstack")]
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum SelectedPlanType {
     Basic,
     Premium,
 }
 
+#[cfg(feature = "fullstack")]
 #[derive(Clone, PartialEq, Debug)]
 pub enum CheckoutStep {
     SelectPlan,
@@ -33,6 +41,23 @@ pub enum CheckoutStep {
 
 #[component]
 pub fn Checkout() -> Element {
+    #[cfg(feature = "fullstack")]
+    {
+        return rsx! { FullstackCheckout {} };
+    }
+
+    #[cfg(not(feature = "fullstack"))]
+    rsx! {
+        div { class: "mx-auto max-w-3xl space-y-4",
+            h1 { class: "text-2xl font-bold text-white", "Checkout" }
+            p { class: "text-sm text-slate-400", "Paystack checkout is available in the fullstack build. Add your project API adapter before enabling payments in a standalone client." }
+        }
+    }
+}
+
+#[cfg(feature = "fullstack")]
+#[component]
+fn FullstackCheckout() -> Element {
     let mut selected_plan = use_signal(|| SelectedPlanType::Premium);
     let mut email = use_signal(String::new);
     let mut step = use_signal(|| CheckoutStep::SelectPlan);

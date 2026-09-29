@@ -9,6 +9,10 @@ license.workspace = true
 [dependencies]
 dioxus = { workspace = true, features = ["router"] }
 starter-core = { workspace = true }
-starter-api = { workspace = true }
+starter-api = { workspace = true, optional = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
+
+[features]
+default = ["fullstack"]
+fullstack = ["dep:starter-api", "starter-api/fullstack"]

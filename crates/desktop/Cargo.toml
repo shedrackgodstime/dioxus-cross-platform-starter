@@ -12,7 +12,7 @@ path = "src/main.rs"
 
 [dependencies]
 dioxus = { workspace = true, features = ["desktop"] }
-starter-ui = { workspace = true }
+starter-ui = { workspace = true, features = ["fullstack"] }
 starter-core = { workspace = true }
 starter-api = { workspace = true }
 directories = { workspace = true }

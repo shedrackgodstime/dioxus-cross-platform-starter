@@ -67,4 +67,4 @@ ndk-context = "0.1"
 starter-core = { path = "crates/core" }
 starter-api = { path = "crates/api" }
 starter-server = { path = "crates/server" }
-starter-ui = { path = "crates/ui" }
+starter-ui = { path = "crates/ui", default-features = false }

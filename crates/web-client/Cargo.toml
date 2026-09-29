@@ -15,4 +15,7 @@ starter-web = { path = "../web" }
 
 [features]
 default = []
-web = []
+# Dioxus CLI enables the selected renderer feature on the package it builds.
+# Propagate that feature to the launcher dependency so its `launch_client`
+# path is compiled with the actual Dioxus web renderer.
+web = ["starter-web/web"]
