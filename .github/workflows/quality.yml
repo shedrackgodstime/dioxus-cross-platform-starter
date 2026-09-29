@@ -41,41 +41,13 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Install Dioxus CLI
-        run: cargo install dioxus-cli --version 0.7.10 --locked
+      - uses: cargo-bins/cargo-binstall@main
 
-      - name: Check formatting
-        run: make fmt-check
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
 
-      - name: Check crate boundaries
-        run: make check-boundaries
-
-      - name: Check workspace
-        run: cargo check --workspace --locked
-
-      - name: Check full-stack server feature
-        run: cargo check --package starter-web --features server --locked
-
-      - name: Check browser target
-        run: cargo check --package starter-web --target wasm32-unknown-unknown --locked
-
-      - name: Run tests
-        run: cargo test --workspace --locked
-
-      - name: Run Clippy
-        run: cargo clippy --workspace --all-targets --locked -- -D warnings
-
-      - name: Run full-stack server Clippy
-        run: cargo clippy --package starter-web --features server --locked -- -D warnings
-
-      - name: Build full-stack web app with Dioxus CLI
-        run: make build-web-server-debug
-
-      - name: Build standalone web app with Dioxus CLI
-        run: make build-web-debug
-
-      - name: Build desktop app with Dioxus CLI
-        run: make build-desktop-debug
+      - name: Run project quality gates
+        run: make ci-quality
 
   android:
     name: Android ARM64 build
@@ -90,21 +62,8 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - uses: actions/setup-java@v6
-        with:
-          distribution: temurin
-          java-version: '21'
-
-      - uses: android-actions/setup-android@v3
-        with:
-          packages: |
-            platform-tools,platforms;android-36,build-tools;36.0.0,ndk;27.3.13750724
-
-      - name: Install Dioxus CLI
-        run: cargo install dioxus-cli --version 0.7.10 --locked
-
-      - name: Build Android debug APK through the Makefile
-        run: make build-android-debug
+      - name: Check Android client
+        run: make check-android
 
   ios:
     name: iOS ARM64 compile check
@@ -120,10 +79,7 @@ jobs:
       - uses: Swatinem/rust-cache@v2
 
       - name: Check iOS device target
-        run: cargo check --package starter-mobile --target aarch64-apple-ios --locked
-
-      - name: Check iOS simulator target
-        run: cargo check --package starter-mobile --target aarch64-apple-ios-sim --locked
+        run: make check-ios
 
   windows:
     name: Windows desktop compile check
@@ -138,4 +94,4 @@ jobs:
       - uses: Swatinem/rust-cache@v2
 
       - name: Check desktop launcher
-        run: cargo check --package starter-desktop --locked
+        run: make check-desktop

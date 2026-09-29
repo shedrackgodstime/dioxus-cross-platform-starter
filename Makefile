@@ -96,7 +96,11 @@ help:
 	@echo "5. Release Signing & Diagnostics:"
 	@echo "  make sign-android        - Sign release APK using apksigner with KEYSTORE_PATH"
 	@echo "  make check-signing       - Check available code signing tools (apksigner, keytool, codesign)"
-	@echo "  make check-all           - Verify compilation across Host, WASM, and Android"
+	@echo "  make check-all           - Verify host, full-stack, and WASM compilation"
+	@echo "  make check-android       - Compile-check the Android client"
+	@echo "  make check-ios           - Compile-check iOS device and simulator targets"
+	@echo "  make check-desktop       - Compile-check the desktop launcher"
+	@echo "  make ci-quality          - Run the complete CI quality and debug build gates"
 	@echo "  make test                - Run all behavioral unit tests"
 	@echo "  make fmt                 - Format Rust code"
 	@echo "  make fmt-check           - Check Rust formatting"
@@ -233,16 +237,34 @@ check-signing:
 
 check-all:
 	@echo "--> Checking Host workspace..."
-	cargo check --workspace
+	cargo check --workspace --locked
 	@echo "--> Checking full-stack server feature..."
-	cargo check --package starter-web --features server
+	cargo check --package starter-web --features server --locked
 	@echo "--> Checking WASM web client..."
-	cargo check --package starter-web --target wasm32-unknown-unknown
+	cargo check --package starter-web --target wasm32-unknown-unknown --locked
+
+check-android:
 	@echo "--> Checking Android mobile client..."
-	$(ANDROID_ENV) cargo check --package starter-mobile --target $(ANDROID_TARGET)
+	$(ANDROID_ENV) cargo check --package starter-mobile --target $(ANDROID_TARGET) --locked
+
+check-ios:
+	@echo "--> Checking iOS device client..."
+	cargo check --package starter-mobile --target aarch64-apple-ios --locked
+	@echo "--> Checking iOS simulator client..."
+	cargo check --package starter-mobile --target aarch64-apple-ios-sim --locked
+
+check-desktop:
+	@echo "--> Checking desktop launcher..."
+	cargo check --package starter-desktop --locked
+
+clippy:
+	cargo clippy --workspace --all-targets --locked -- -D warnings
+	cargo clippy --package starter-web --features server --locked -- -D warnings
+
+ci-quality: fmt-check check-boundaries check-all test clippy build-web-server-debug build-web-debug build-desktop-debug
 
 test:
-	cargo test --workspace
+	cargo test --workspace --locked
 
 fmt:
 	cargo fmt --all

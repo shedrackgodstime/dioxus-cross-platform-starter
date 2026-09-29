@@ -51,8 +51,10 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Install Dioxus CLI
-        run: cargo install dioxus-cli --version 0.7.10 --locked
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
 
       - name: Build full-stack web release
         run: make build-web-server
@@ -112,15 +114,15 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Install Dioxus CLI
-        run: cargo install dioxus-cli --version 0.7.10 --locked
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
 
       - name: Build desktop release
-        shell: bash
         env:
-          STARTER_SERVER_URL: ${{ env.PROD_SERVER_URL }}
-        run: |
-          dx build --package starter-desktop --platform "${{ matrix.platform }}" --release --locked
+          PROD_SERVER_URL: ${{ env.PROD_SERVER_URL }}
+        run: make build-desktop
 
       - name: Archive Linux desktop app
         if: runner.os == 'Linux'
@@ -172,11 +174,12 @@ jobs:
 
       - uses: android-actions/setup-android@v3
         with:
-          packages: |
-            platform-tools,platforms;android-36,build-tools;36.0.0,ndk;27.3.13750724
+          packages: platform-tools platforms;android-36 build-tools;36.0.0 ndk;27.3.13750724
 
-      - name: Install Dioxus CLI
-        run: cargo install dioxus-cli --version 0.7.10 --locked
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
 
       - name: Build Android release APK
         run: make build-android
@@ -212,13 +215,15 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Install Dioxus CLI
-        run: cargo install dioxus-cli --version 0.7.10 --locked
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
 
       - name: Build unsigned iOS app bundle
         env:
-          STARTER_SERVER_URL: ${{ env.PROD_SERVER_URL }}
-        run: dx bundle --package starter-mobile --platform ios --package-types ios --release --locked
+          PROD_SERVER_URL: ${{ env.PROD_SERVER_URL }}
+        run: make build-ios
 
       - name: Archive unsigned iOS app
         run: |
