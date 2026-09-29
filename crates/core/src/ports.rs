@@ -12,6 +12,41 @@ pub enum StorageError {
     Unavailable,
 }
 
+#[derive(Error, Debug, Clone, PartialEq, Eq)]
+pub enum NotificationError {
+    #[error("Notifications are not available on this platform")]
+    Unavailable,
+    #[error("Notification permission was denied")]
+    PermissionDenied,
+    #[error("Notification operation failed: {0}")]
+    Failed(String),
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum NotificationPermission {
+    Unknown,
+    Granted,
+    Denied,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct NotificationRequest {
+    pub title: String,
+    pub body: String,
+    pub channel: Option<String>,
+}
+
+/// Platform adapter for local notifications.
+///
+/// The core crate defines the contract only. Each launcher can provide a real
+/// adapter using its native notification APIs, while unsupported platforms can
+/// return `NotificationError::Unavailable` without silently discarding work.
+pub trait NotificationService: Send + Sync {
+    fn permission(&self) -> Result<NotificationPermission, NotificationError>;
+    fn request_permission(&self) -> Result<NotificationPermission, NotificationError>;
+    fn send(&self, request: NotificationRequest) -> Result<(), NotificationError>;
+}
+
 /// Abstract key-value persistence port.
 ///
 /// Implemented by:

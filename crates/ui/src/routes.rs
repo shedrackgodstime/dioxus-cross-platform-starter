@@ -13,15 +13,15 @@ fn AppLayout() -> Element {
 
     rsx! {
         document::Meta { name: "viewport", content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" }
-        document::Meta { name: "theme-color", content: "#020617" }
-        document::Meta { name: "color-scheme", content: "dark" }
+        document::Meta { name: "theme-color", content: "#0f172a" }
+        document::Meta { name: "color-scheme", content: "light dark" }
         document::Link { rel: "stylesheet", href: TAILWIND_CSS }
         document::Link { rel: "icon", href: LOGO_SVG }
         document::Style {
-            "html, body {{ background-color: #020617 !important; color: #f8fafc; margin: 0; padding: 0; }} svg {{ width: 1.25rem; height: 1.25rem; }}"
+            "html, body {{ background-color: #020617 !important; color: #f8fafc; margin: 0; padding: 0; }} html[data-theme='light'] body {{ background-color: #f8fafc !important; color: #0f172a; }} html[data-theme='light'] .app-shell {{ background-color: #f8fafc !important; color: #0f172a; }} svg {{ width: 1.25rem; height: 1.25rem; }}"
         }
 
-        div { class: "min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-500/30",
+        div { class: "app-shell min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-blue-500/30",
             Navbar {}
             main { class: "flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8",
                 Outlet::<Route> {}

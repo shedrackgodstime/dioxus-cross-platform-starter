@@ -30,6 +30,10 @@ Run `dx doctor` to inspect the local platform toolchains. The official Dioxus pl
 
 Tailwind is compiled by Dioxus CLI from the root `tailwind.css` into `crates/ui/assets/tailwind.css`; `Dioxus.toml` keeps those paths shared by all launchers.
 
+Branding assets live in `assets/icons/`. The PNG, ICO, and ICNS set is wired into `Dioxus.toml` so desktop bundles use the same launcher identity; the web entrypoint also publishes a favicon and install manifest.
+
+Theme preference is shared through `starter-core::ThemeMode`, persisted through the platform storage port, and exposed in the Settings page. Notification behavior is defined by the core `NotificationService` port; each native launcher can add its OS adapter and report permission or availability errors explicitly.
+
 The workspace keeps standalone web and full-stack web builds separate. `make build-web` produces only the browser client from `starter-web-client`; `make build-web-server` produces the browser client and server executable from `starter-web`.
 
 ## Common commands

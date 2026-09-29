@@ -1,0 +1,12 @@
+{
+  "name": "Dioxus Cross-Platform Starter",
+  "short_name": "Dioxus Starter",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
+  "icons": [
+    { "src": "/icons/128x128.png", "sizes": "128x128", "type": "image/png" },
+    { "src": "/icons/256x256.png", "sizes": "256x256", "type": "image/png" }
+  ]
+}

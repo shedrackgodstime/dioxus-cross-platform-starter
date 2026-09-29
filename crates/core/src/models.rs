@@ -9,6 +9,38 @@ pub enum PlatformTarget {
     Server,
 }
 
+/// User preference for the application color scheme.
+///
+/// Keeping this value in the platform-neutral crate lets every launcher and
+/// project agree on the persisted representation without depending on a DOM
+/// or a native window API.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Default)]
+pub enum ThemeMode {
+    #[default]
+    System,
+    Light,
+    Dark,
+}
+
+impl ThemeMode {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::System => "system",
+            Self::Light => "light",
+            Self::Dark => "dark",
+        }
+    }
+
+    pub fn parse(value: &str) -> Option<Self> {
+        match value {
+            "system" => Some(Self::System),
+            "light" => Some(Self::Light),
+            "dark" => Some(Self::Dark),
+            _ => None,
+        }
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum DesktopOs {
     MacOS,
@@ -151,6 +183,14 @@ mod tests {
         assert_eq!(PaymentPlan::from_product_id("basic"), Some(practice));
         assert_eq!(PaymentPlan::from_product_id("premium"), Some(unlimited));
         assert_eq!(PaymentPlan::from_product_id("arbitrary-price"), None);
+    }
+
+    #[test]
+    fn theme_mode_has_stable_storage_values() {
+        for mode in [ThemeMode::System, ThemeMode::Light, ThemeMode::Dark] {
+            assert_eq!(ThemeMode::parse(mode.as_str()), Some(mode));
+        }
+        assert_eq!(ThemeMode::parse("unknown"), None);
     }
 
     #[test]

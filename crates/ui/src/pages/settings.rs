@@ -1,10 +1,12 @@
 use crate::components::Card;
-use crate::state::PlatformContext;
+use crate::state::{PlatformContext, ThemeState};
 use dioxus::prelude::*;
+use starter_core::ThemeMode;
 
 #[component]
 pub fn Settings() -> Element {
     let platform = use_context::<PlatformContext>();
+    let mut theme = use_context::<ThemeState>().mode;
 
     rsx! {
         div { class: "mx-auto max-w-3xl space-y-6",
@@ -24,6 +26,24 @@ pub fn Settings() -> Element {
                     div { class: "flex flex-col gap-1 sm:flex-row sm:justify-between",
                         dt { class: "text-slate-400", "Server functions URL" }
                         dd { class: "break-all font-mono text-xs text-emerald-300", "{platform.server_url}" }
+                    }
+                }
+            }
+
+            Card { title: "Appearance".to_string(),
+                div { class: "flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between",
+                    p { class: "text-sm text-slate-300", "Choose the color scheme used by this project." }
+                    select {
+                        class: "rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-slate-100",
+                        value: "{theme().as_str()}",
+                        onchange: move |event| {
+                            if let Some(mode) = ThemeMode::parse(&event.value()) {
+                                theme.set(mode);
+                            }
+                        },
+                        option { value: "system", "System" }
+                        option { value: "light", "Light" }
+                        option { value: "dark", "Dark" }
                     }
                 }
             }
