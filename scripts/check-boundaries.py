@@ -25,6 +25,7 @@ EXPECTED = {
     "starter-server": "crates/server",
     "starter-ui": "crates/ui",
     "starter-web": "crates/web",
+    "starter-web-client": "crates/web-client",
     "starter-desktop": "crates/desktop",
     "starter-mobile": "crates/mobile",
 }

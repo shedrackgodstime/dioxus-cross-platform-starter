@@ -11,6 +11,7 @@ crates/
 ├── server/    # Backend services and provider integrations
 ├── ui/        # Shared components, pages, routes, and application state
 ├── web/       # Web and full-stack server entrypoint
+├── web-client/ # Standalone browser-only web entrypoint
 ├── desktop/   # Desktop entrypoint and native adapters
 └── mobile/    # Android/iOS entrypoint and native adapters
 ```
@@ -28,6 +29,8 @@ Paystack is kept as an optional integration example because its server initializ
 Run `dx doctor` to inspect the local platform toolchains. The official Dioxus platform guide documents renderer-specific setup and limitations: <https://dioxuslabs.com/learn/0.7/guides/platforms/>.
 
 Tailwind is compiled by Dioxus CLI from the root `tailwind.css` into `crates/ui/assets/tailwind.css`; `Dioxus.toml` keeps those paths shared by all launchers.
+
+The workspace keeps standalone web and full-stack web builds separate. `make build-web` produces only the browser client from `starter-web-client`; `make build-web-server` produces the browser client and server executable from `starter-web`.
 
 ## Common commands
 

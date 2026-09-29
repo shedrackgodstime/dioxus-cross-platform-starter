@@ -5,6 +5,7 @@ members = [
     "crates/server",
     "crates/ui",
     "crates/web",
+    "crates/web-client",
     "crates/desktop",
     "crates/mobile",
 ]

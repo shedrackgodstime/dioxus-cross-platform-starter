@@ -125,10 +125,10 @@ serve-web:
 serve-web-only: serve-web
 
 build-web: require-client-server-url
-	STARTER_SERVER_URL="$(CLIENT_PROD_URL)" dx build --package starter-web --platform web --release $(DX_LOCKED)
+	STARTER_SERVER_URL="$(CLIENT_PROD_URL)" dx build --package starter-web-client --platform web --release $(DX_LOCKED)
 
 build-web-debug:
-	STARTER_SERVER_URL="$(CLIENT_DESKTOP_URL)" dx build --package starter-web --platform web $(DX_LOCKED)
+	STARTER_SERVER_URL="$(CLIENT_DESKTOP_URL)" dx build --package starter-web-client --platform web $(DX_LOCKED)
 
 # ----------------------------------------------------------------------------
 # 2. Fullstack server aliases
@@ -152,10 +152,10 @@ serve-web-server:
 serve-fullstack: serve-web-server
 
 build-web-server:
-	dx build --package starter-web --platform web --release $(DX_LOCKED)
+	dx build --package starter-web --platform web --fullstack=true --release $(DX_LOCKED)
 
 build-web-server-debug:
-	dx build --package starter-web --platform web $(DX_LOCKED)
+	dx build --package starter-web --platform web --fullstack=true $(DX_LOCKED)
 
 build-fullstack: build-web-server
 
@@ -246,6 +246,8 @@ check-all:
 	cargo check --package starter-web --features server --locked
 	@echo "--> Checking WASM web client..."
 	cargo check --package starter-web --target wasm32-unknown-unknown --locked
+	@echo "--> Checking standalone WASM web client..."
+	cargo check --package starter-web-client --target wasm32-unknown-unknown --locked
 
 check-android:
 	@echo "--> Checking Android mobile client..."

@@ -72,6 +72,42 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+  web:
+    name: Standalone web client (Linux build)
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.97.1
+          targets: wasm32-unknown-unknown
+
+      - uses: Swatinem/rust-cache@v2
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
+
+      - name: Build standalone web release
+        env:
+          PROD_SERVER_URL: ${{ env.PROD_SERVER_URL }}
+        run: make build-web
+
+      - name: Archive standalone web client
+        run: |
+          mkdir -p release-assets
+          tar -czf "release-assets/dioxus-starter-web-client-${GITHUB_REF_NAME}.tar.gz" \
+            -C target/dx/starter-web-client/release/web/public .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-client
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 7
+
   desktop:
     name: Desktop (${{ matrix.label }})
     needs: validate
@@ -249,7 +285,7 @@ jobs:
   publish:
     name: Publish GitHub release
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [fullstack-web, desktop, android, ios]
+    needs: [fullstack-web, web, desktop, android, ios]
     runs-on: ubuntu-latest
     permissions:
       contents: write
