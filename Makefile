@@ -91,6 +91,7 @@ help:
 	@echo "  make install-android     - Build, install debug APK on connected device, and launch"
 	@echo "  make serve-ios           - Run iOS app on simulator (Debug -> Points to $(CLIENT_DESKTOP_URL))"
 	@echo "  make build-ios           - Build iOS bundle (Release -> Points to $(CLIENT_PROD_URL))"
+	@echo "  make build-ios-debug     - Build iOS app (Debug -> Points to $(CLIENT_DESKTOP_URL))"
 	@echo "  make build-all           - Build available targets (Web, Server, Desktop, Android)"
 	@echo ""
 	@echo "5. Release Signing & Diagnostics:"
@@ -192,6 +193,9 @@ serve-ios:
 build-ios: require-client-server-url
 	STARTER_SERVER_URL="$(CLIENT_PROD_URL)" dx build --package starter-mobile --platform ios --release $(DX_LOCKED)
 
+build-ios-debug:
+	STARTER_SERVER_URL="$(CLIENT_DESKTOP_URL)" dx build --package starter-mobile --platform ios $(DX_LOCKED)
+
 build-all: build-web build-server build-desktop build-android
 
 require-client-server-url:
@@ -261,7 +265,7 @@ clippy:
 	cargo clippy --workspace --all-targets --locked -- -D warnings
 	cargo clippy --package starter-web --features server --locked -- -D warnings
 
-ci-quality: fmt-check check-boundaries check-all test clippy build-web-server-debug build-web-debug build-desktop-debug
+ci-quality: fmt-check check-boundaries check-all test clippy
 
 test:
 	cargo test --workspace --locked

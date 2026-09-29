@@ -13,25 +13,17 @@ concurrency:
 
 jobs:
   quality:
-    name: Linux, web, and desktop quality
+    name: Rust quality gates
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Dioxus desktop system dependencies
+      - name: Install Linux compilation dependencies
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
-            build-essential \
-            curl \
-            file \
-            libayatana-appindicator3-dev \
-            libssl-dev \
-            libwebkit2gtk-4.1-dev \
-            libxdo-dev \
-            lld \
-            librsvg2-dev \
-            wget
+            build-essential curl file libayatana-appindicator3-dev libssl-dev \
+            libwebkit2gtk-4.1-dev libxdo-dev lld librsvg2-dev wget
 
       - uses: dtolnay/rust-toolchain@master
         with:
@@ -41,13 +33,58 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
+      - name: Run project quality gates
+        run: make ci-quality
+
+  web:
+    name: Web builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.97.1
+          targets: wasm32-unknown-unknown
+
+      - uses: Swatinem/rust-cache@v2
+
       - uses: cargo-bins/cargo-binstall@main
 
       - name: Install prebuilt Dioxus CLI
         run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
 
-      - name: Run project quality gates
-        run: make ci-quality
+      - name: Build full-stack web app
+        run: make build-web-server-debug
+
+      - name: Build standalone web app
+        run: make build-web-debug
+
+  desktop-linux:
+    name: Linux desktop build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Dioxus desktop system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            build-essential curl file libayatana-appindicator3-dev libssl-dev \
+            libwebkit2gtk-4.1-dev libxdo-dev lld librsvg2-dev wget
+
+      - uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: 1.97.1
+
+      - uses: Swatinem/rust-cache@v2
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
+
+      - name: Build Linux desktop app
+        run: make build-desktop-debug
 
   android:
     name: Android ARM64 build
@@ -95,11 +132,16 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Check iOS device target
-        run: make check-ios
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
+
+      - name: Build iOS app
+        run: make build-ios-debug
 
   windows:
-    name: Windows desktop compile check
+    name: Windows desktop build
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -110,5 +152,10 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Check desktop launcher
-        run: make check-desktop
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
+
+      - name: Build Windows desktop app
+        run: make build-desktop-debug
