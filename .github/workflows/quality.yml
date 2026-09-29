@@ -62,8 +62,25 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Check Android client
-        run: make check-android
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - uses: android-actions/setup-android@v4
+        with:
+          packages: ''
+
+      - name: Install Android SDK and NDK packages
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0" "ndk;27.3.13750724"
+
+      - uses: cargo-bins/cargo-binstall@main
+
+      - name: Install prebuilt Dioxus CLI
+        run: cargo binstall dioxus-cli@0.7.10 --no-confirm --force
+
+      - name: Build Android debug APK through Make
+        run: make build-android-debug
 
   ios:
     name: iOS ARM64 compile check
