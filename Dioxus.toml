@@ -1,0 +1,42 @@
+[application]
+name = "Dioxus Starter"
+asset_dir = "public"
+tailwind_input = "../../tailwind.css"
+tailwind_output = "../ui/assets/tailwind.css"
+
+[bundle]
+identifier = "dev.dioxus.starter"
+publisher = "Dioxus Cross-Platform Starter"
+short_description = "Universal Cross-Platform Dioxus 0.7 Starter"
+long_description = "A reusable Dioxus workspace for web, desktop, mobile, and full-stack projects."
+
+[deep_links]
+schemes = ["dioxus-starter"]
+
+[web.app]
+title = "Dioxus Cross-Platform Starter"
+
+[web.watcher]
+reload_html = true
+watch_path = ["crates/ui", "crates/web", "tailwind.css"]
+
+[android]
+min_sdk = 24
+target_sdk = 36
+compile_sdk = 36
+lib_name = "main"
+
+[android.application]
+theme = "@style/Theme.AppCompat.NoActionBar"
+
+[ios]
+deployment_target = "16.0"
+
+[macos]
+minimum_system_version = "11.0"
+
+[windows]
+webview_install_mode = { type = "DownloadBootstrapper" }
+
+[linux.deb]
+depends = ["libwebkit2gtk-4.1-0 | libwebkit2gtk-4.0-37"]
