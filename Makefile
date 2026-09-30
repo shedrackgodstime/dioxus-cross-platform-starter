@@ -7,10 +7,10 @@ DX ?= dx
 # separate ports. PORT is canonical: it is what `core::config` falls back to
 # and what `dioxus::serve` binds for the server and fullstack targets.
 PORT ?= 8080
-WEB_PORT ?= 8081
+WEB_PORT ?= 8080
 
 # API base baked into the web and native clients at compile time.
-DEV_SERVER_API_URL ?= http://10.101.124.151:$(PORT)
+DEV_SERVER_API_URL ?= http://locahost:$(PORT)
 DEV_SERVER_BIND ?= 0.0.0.0:$(PORT)
 ANDROID_TARGET ?= aarch64-linux-android
 ANDROID_DEVICE ?=
