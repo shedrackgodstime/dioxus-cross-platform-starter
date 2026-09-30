@@ -1,22 +1,19 @@
 [package]
-name = "starter-desktop"
+name = "desktop"
 version.workspace = true
-authors.workspace = true
 edition.workspace = true
 rust-version.workspace = true
-license.workspace = true
+authors.workspace = true
 
-[[bin]]
-name = "starter-desktop"
-path = "src/main.rs"
+[features]
+default = ["fullstack"]
+fullstack = ["dioxus/fullstack"]
+desktop = ["dioxus/desktop"]
 
 [dependencies]
-dioxus = { workspace = true, features = ["desktop"] }
-starter-ui = { workspace = true, features = ["fullstack"] }
-starter-core = { workspace = true }
-starter-api = { workspace = true }
-directories = { workspace = true }
-tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
+dioxus = { version = "0.7.10", default-features = false, features = ["lib", "launch", "devtools"] }
+core = { package = "core", path = "../core" }
+ui = { package = "ui", path = "../ui" }
+
+[lints]
+workspace = true

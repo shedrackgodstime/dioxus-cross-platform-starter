@@ -1,19 +1,12 @@
 [package]
-name = "starter-ui"
+name = "ui"
 version.workspace = true
-authors.workspace = true
 edition.workspace = true
 rust-version.workspace = true
-license.workspace = true
+authors.workspace = true
 
 [dependencies]
-dioxus = { workspace = true, features = ["router"] }
-starter-core = { workspace = true }
-starter-api = { workspace = true, optional = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
+dioxus = { version = "0.7.10", default-features = false, features = ["lib"] }
 
-[features]
-default = ["fullstack"]
-fullstack = ["dep:starter-api", "starter-api/fullstack"]
-web-client = ["dep:starter-api", "starter-api/web-client"]
+[lints]
+workspace = true

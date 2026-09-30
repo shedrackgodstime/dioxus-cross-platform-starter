@@ -1,20 +1,19 @@
 [package]
-name = "starter-server"
+name = "server"
 version.workspace = true
-authors.workspace = true
 edition.workspace = true
 rust-version.workspace = true
-license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "server"
+path = "src/main.rs"
+
+[lib]
+path = "src/lib.rs"
+
+[lints]
+workspace = true
 
 [dependencies]
-starter-core = { workspace = true }
-serde = { workspace = true }
-serde_json = { workspace = true }
-thiserror = { workspace = true }
-tokio = { workspace = true }
-tracing = { workspace = true }
-reqwest = { workspace = true }
-tower-http = { workspace = true }
-http = { workspace = true }
-ring = { workspace = true }
-dotenvy = { workspace = true }
+dioxus = { version = "0.7.10", features = ["fullstack", "server"] }

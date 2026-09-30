@@ -1,12 +1,17 @@
 [package]
-name = "web"
+name = "fullstack"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
 authors.workspace = true
 
+[features]
+default = []
+web = ["dioxus/web"]
+server = ["dioxus/server"]
+
 [dependencies]
-dioxus = { version = "0.7.10", default-features = false, features = ["lib", "launch", "web", "document", "devtools"] }
+dioxus = { version = "0.7.10", features = ["fullstack"] }
 ui = { package = "ui", path = "../ui" }
 
 [lints]
