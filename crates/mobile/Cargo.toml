@@ -11,9 +11,9 @@ fullstack = ["dioxus/fullstack"]
 mobile = ["dioxus/mobile"]
 
 [dependencies]
-dioxus = { version = "0.7.10", default-features = false, features = ["lib", "launch", "devtools"] }
-core = { package = "core", path = "../core" }
-ui = { package = "ui", path = "../ui", features = ["fullstack"] }
+dioxus = { workspace = true, features = ["lib", "launch", "devtools"] }
+core = { workspace = true }
+ui = { workspace = true, features = ["fullstack"] }
 
 [lints]
 workspace = true

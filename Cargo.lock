@@ -1057,7 +1057,6 @@ dependencies = [
  "dioxus-hooks",
  "dioxus-html",
  "dioxus-liveview",
- "dioxus-logger",
  "dioxus-server",
  "dioxus-signals",
  "dioxus-ssr",
@@ -5042,6 +5041,7 @@ version = "0.1.0"
 dependencies = [
  "api",
  "dioxus",
+ "serde_json",
 ]
 
 [[package]]

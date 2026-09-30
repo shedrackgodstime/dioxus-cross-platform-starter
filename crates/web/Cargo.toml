@@ -6,8 +6,8 @@ rust-version.workspace = true
 authors.workspace = true
 
 [dependencies]
-dioxus = { version = "0.7.10", default-features = false, features = ["lib", "launch", "web", "document", "devtools"] }
-ui = { package = "ui", path = "../ui" }
+dioxus = { workspace = true, features = ["lib", "launch", "web", "document", "devtools"] }
+ui = { workspace = true }
 
 [lints]
 workspace = true

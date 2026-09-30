@@ -10,8 +10,8 @@ default = []
 fullstack = ["dep:api", "api/fullstack", "dioxus/fullstack"]
 
 [dependencies]
-dioxus = { version = "0.7.10", default-features = false, features = ["lib"] }
-api = { package = "api", path = "../api", optional = true }
+dioxus = { workspace = true, features = ["lib"] }
+api = { workspace = true, optional = true }
 
 [lints]
 workspace = true

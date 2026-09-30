@@ -11,9 +11,10 @@ web = ["dioxus/web", "dep:api", "api/fullstack", "ui/fullstack"]
 server = ["dioxus/server", "dep:api", "api/server", "ui/fullstack"]
 
 [dependencies]
-api = { package = "api", path = "../api", optional = true }
-dioxus = { version = "0.7.10", features = ["fullstack"] }
-ui = { package = "ui", path = "../ui", default-features = false }
+api = { workspace = true, optional = true }
+# `launch` backs the client-side entrypoint; `fullstack` backs dioxus::serve.
+dioxus = { workspace = true, features = ["launch", "lib", "fullstack"] }
+ui = { workspace = true }
 
 [lints]
 workspace = true

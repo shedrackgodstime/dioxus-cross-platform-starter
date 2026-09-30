@@ -11,8 +11,8 @@ fullstack = ["dep:dioxus"]
 server = ["fullstack", "dioxus/server"]
 
 [dependencies]
-dioxus = { version = "0.7.10", default-features = false, features = ["lib", "fullstack"], optional = true }
-serde = { version = "1", features = ["derive"] }
+dioxus = { workspace = true, features = ["lib", "fullstack"], optional = true }
+serde = { workspace = true }
 
 [lints]
 workspace = true
