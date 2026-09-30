@@ -2,7 +2,7 @@
 name = "Dioxus Startup"
 description = "Cross-platform Dioxus application template"
 version = "0.1.0"
-authors = ["UTME Lab"]
+authors = ["Dioxus Startup"]
 homepage = ""
 license = ""
 
@@ -22,16 +22,16 @@ icon = "icons/icon.png"
 
 [application.bundle]
 # Platform-specific bundle identifiers
-identifier = "com.utmelab.dioxus-startup"
-publisher = "UTME Lab"
-copyright = "Copyright (c) 2026 UTME Lab"
+identifier = "com.dioxus.startup"
+publisher = "Dioxus Startup"
+copyright = "Copyright (c) 2026 Dioxus Startup"
 category = "DeveloperTool"
 short_description = "Cross-platform Dioxus application"
 long_description = ""
 
 [application.bundle.macos]
 # macOS-specific settings
-bundle_id = "com.utmelab.dioxus-startup"
+bundle_id = "com.dioxus.startup"
 category = "public.app-category.developer-tools"
 signing_identity = ""  # Set for distribution
 provider_short_name = ""
@@ -49,14 +49,14 @@ webview_install_mode = "download"
 [application.bundle.linux]
 # Linux-specific settings
 package_type = "deb"
-maintainer = "UTME Lab"
-vendor = "UTME Lab"
+maintainer = "Dioxus Startup"
+vendor = "Dioxus Startup"
 license_file = ""
 section = "devel"
 
 [application.bundle.android]
 # Android-specific settings
-package = "com.utmelab.dioxus_startup"
+package = "com.dioxus.startup"
 min_sdk_version = 24
 target_sdk_version = 34
 version_code = 1
@@ -72,7 +72,7 @@ adaptive_icon_background = "icons/adaptive_background.png"
 
 [application.bundle.ios]
 # iOS-specific settings
-bundle_id = "com.utmelab.dioxus-startup"
+bundle_id = "com.dioxus.startup"
 team_id = ""
 signing_identity = ""
 provisioning_profile = ""

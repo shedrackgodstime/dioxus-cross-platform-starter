@@ -1,4 +1,4 @@
-//! API-only backend for the UTME Lab workspace.
+//! API-only backend for the Dioxus Startup workspace.
 //!
 //! This crate is a library plus a thin `server` binary. The binary's only job
 //! is to mount the server functions declared in the `api` crate and serve
