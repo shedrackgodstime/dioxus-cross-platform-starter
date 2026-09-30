@@ -16,4 +16,5 @@ path = "src/lib.rs"
 workspace = true
 
 [dependencies]
+api = { package = "api", path = "../api", features = ["server"] }
 dioxus = { version = "0.7.10", features = ["fullstack", "server"] }

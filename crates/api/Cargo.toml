@@ -1,0 +1,18 @@
+[package]
+name = "api"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+
+[features]
+default = []
+fullstack = ["dep:dioxus"]
+server = ["fullstack", "dioxus/server"]
+
+[dependencies]
+dioxus = { version = "0.7.10", default-features = false, features = ["lib", "fullstack"], optional = true }
+serde = { version = "1", features = ["derive"] }
+
+[lints]
+workspace = true

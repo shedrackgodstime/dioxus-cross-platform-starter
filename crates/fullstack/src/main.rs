@@ -2,7 +2,7 @@ fn main() {
     #[cfg(feature = "server")]
     dioxus::serve(|| async {
         let router = dioxus::server::router(ui::App).route(
-            "/health",
+            "/api/v1/health",
             dioxus::server::axum::routing::get(|| async {
                 "{\"status\":\"ok\",\"service\":\"utme-lab-fullstack\"}"
             }),
