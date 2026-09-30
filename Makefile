@@ -2,10 +2,13 @@ SHELL := /bin/sh
 
 CARGO ?= cargo
 DX ?= dx
+DEV_SERVER_API_URL ?= http://127.0.0.1:8080
 ANDROID_TARGET ?= aarch64-linux-android
 ANDROID_DEVICE ?=
 ANDROID_PACKAGE ?= com.example.Mobile
 ANDROID_APK ?= target/dx/mobile/release/android/app/app/build/outputs/apk/debug/app-debug.apk
+
+export DEV_SERVER_API_URL
 
 ifneq ($(strip $(SERVER_API_URL)),)
 export SERVER_API_URL
