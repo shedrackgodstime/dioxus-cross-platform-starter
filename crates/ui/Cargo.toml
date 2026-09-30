@@ -5,13 +5,17 @@ edition.workspace = true
 rust-version.workspace = true
 authors.workspace = true
 
+# No transport features here on purpose. The server-function and plain-HTTP
+# transports are mutually exclusive, and Cargo unifies features across a
+# workspace build, so a feature pair in this crate would make
+# `cargo check --workspace` compile both at once. The launcher injects a
+# fetcher instead; see `api::StatusFetcher`.
 [features]
 default = []
-fullstack = ["dep:api", "api/fullstack", "dioxus/fullstack"]
 
 [dependencies]
 dioxus = { workspace = true, features = ["lib"] }
-api = { workspace = true, optional = true }
+api = { workspace = true }
 
 [lints]
 workspace = true

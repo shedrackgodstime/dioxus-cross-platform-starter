@@ -1,27 +1,9 @@
-use api::ServerStatus;
-
-/// The single health payload served by `/api/v1/health` and `/api/v1/status`.
-pub fn health_payload() -> ServerStatus {
-    ServerStatus {
-        status: "ok".to_string(),
-        service: "utme-lab-server".to_string(),
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn health_payload_reports_ok() {
-        let payload = health_payload();
-        assert_eq!(payload.status, "ok");
-        assert_eq!(payload.service, "utme-lab-server");
-    }
-
-    #[test]
-    fn health_payload_matches_wire_contract() {
-        let json = serde_json::to_string(&health_payload()).expect("health payload serializes");
-        assert_eq!(json, r#"{"status":"ok","service":"utme-lab-server"}"#);
-    }
-}
+//! API-only backend for the UTME Lab workspace.
+//!
+//! This crate is a library plus a thin `server` binary. The binary's only job
+//! is to mount the server functions declared in the `api` crate and serve
+//! them; it deliberately does not render pages, so it stays API-only even
+//! though it links the fullstack machinery.
+//!
+//! Backend internals (database queries, token minting, hashing) belong here
+//! as library functions, and must never be imported by `ui` or `core`.

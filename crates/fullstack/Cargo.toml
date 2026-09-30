@@ -7,11 +7,13 @@ authors.workspace = true
 
 [features]
 default = []
-web = ["dioxus/web", "dep:api", "api/fullstack", "ui/fullstack"]
-server = ["dioxus/server", "dep:api", "api/server", "ui/fullstack"]
+web = ["dioxus/web"]
+server = ["dioxus/server", "api/server"]
 
 [dependencies]
-api = { workspace = true, optional = true }
+# The server-function transport is always available here; this crate always
+# enables `dioxus/fullstack`. Only `server` mode adds the server-side halves.
+api = { workspace = true, features = ["fullstack"] }
 # `launch` backs the client-side entrypoint; `fullstack` backs dioxus::serve.
 dioxus = { workspace = true, features = ["launch", "lib", "fullstack"] }
 ui = { workspace = true }

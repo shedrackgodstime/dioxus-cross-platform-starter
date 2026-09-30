@@ -2,7 +2,16 @@ SHELL := /bin/sh
 
 CARGO ?= cargo
 DX ?= dx
-DEV_SERVER_API_URL ?= http://127.0.0.1:8080
+
+# The API and the standalone web client are separate processes, so they need
+# separate ports. PORT is canonical: it is what `core::config` falls back to
+# and what `dioxus::serve` binds for the server and fullstack targets.
+PORT ?= 8080
+WEB_PORT ?= 8081
+
+# API base baked into the web and native clients at compile time.
+DEV_SERVER_API_URL ?= http://127.0.0.1:$(PORT)
+
 ANDROID_TARGET ?= aarch64-linux-android
 ANDROID_DEVICE ?=
 ANDROID_PACKAGE ?= com.example.Mobile
@@ -27,15 +36,17 @@ endif
 
 ## Runtime targets
 
-## serve-server    Run the API server only (no web client or UI).
+## serve-server    Run the API server only (no web client or UI) on $(PORT).
 serve-server:
-	$(CARGO) run -p server --offline
+	PORT=$(PORT) $(CARGO) run -p server --offline
 
-## serve-web       Run the standalone web client only.
+## serve-web       Run the standalone web client only on $(WEB_PORT).
+##                 Run `make serve-server` too; the client calls the API at
+##                 $(DEV_SERVER_API_URL).
 serve-web:
-	$(DX) serve --package web
+	$(DX) serve --package web --port $(WEB_PORT)
 
-## serve-fullstack Run the web client and fullstack server together.
+## serve-fullstack Run the web client and fullstack server together on $(PORT).
 serve-fullstack:
 	$(DX) serve --package fullstack
 

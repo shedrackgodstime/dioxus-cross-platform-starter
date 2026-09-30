@@ -20,6 +20,17 @@ dioxus = { version = "0.7.10", default-features = false }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
+# Browser HTTP client, used by the standalone web SPA which has no
+# `dioxus/fullstack` (that would make the CLI treat it as a fullstack server).
+gloo-net = { version = "0.6", features = ["http", "json"] }
+
+axum = { version = "0.8", features = ["json"] }
+
+# CORS for the API-only server. The standalone web client is served from a
+# different dev port than the API, so its cross-origin reads need this;
+# production serves the SPA same-origin and never relies on it.
+tower-http = { version = "0.6", features = ["cors"] }
+
 # Internal workspace crates
 core = { path = "crates/core" }
 api = { path = "crates/api" }

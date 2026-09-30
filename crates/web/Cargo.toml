@@ -6,7 +6,11 @@ rust-version.workspace = true
 authors.workspace = true
 
 [dependencies]
+# No `dioxus/fullstack` here on purpose: it would make the Dioxus CLI treat
+# this package as a fullstack server and launch its native binary, which
+# panics in js-sys because a SPA has no server side.
 dioxus = { workspace = true, features = ["lib", "launch", "web", "document", "devtools"] }
+api = { workspace = true, features = ["http-client"] }
 ui = { workspace = true }
 
 [lints]

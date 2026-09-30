@@ -2,6 +2,10 @@ use dioxus::prelude::*;
 
 static TAILWIND_CSS: Asset = asset!("/assets/tailwind.css");
 
+/// Shared application root.
+///
+/// The launcher must provide an [`api::StatusFetcher`] context before rendering
+/// this, via `api::server_fn_fetcher()` or `api::http_fetcher()`.
 #[component]
 pub fn App() -> Element {
     rsx! {
@@ -24,32 +28,37 @@ pub fn App() -> Element {
 
 #[component]
 fn BackendStatus() -> Element {
-    #[cfg(feature = "fullstack")]
-    {
-        let status = use_server_future(api::get_server_status)?;
-
-        return match status() {
-            Some(Ok(status)) => rsx! {
-                p {
-                    class: "mt-4 text-emerald-400",
-                    "Backend: {status.status} ({status.service})"
-                }
-            },
-            Some(Err(error)) => rsx! {
-                p {
-                    class: "mt-4 text-amber-400",
-                    "Backend unavailable: {error}"
-                }
-            },
-            None => rsx! {
-                p {
-                    class: "mt-4 text-slate-400",
-                    "Checking backend..."
-                }
-            },
+    let Some(fetch) = try_use_context::<api::StatusFetcher>() else {
+        return rsx! {
+            p {
+                class: "mt-4 text-slate-400",
+                "No API transport was provided by the launcher."
+            }
         };
-    }
+    };
 
-    #[cfg(not(feature = "fullstack"))]
-    rsx! {}
+    let mut status = use_signal(|| None::<api::ServerStatus>);
+    let mut error = use_signal(|| None::<String>);
+
+    use_effect(move || {
+        let fetch = fetch.clone();
+        spawn(async move {
+            match (fetch)().await {
+                Ok(value) => status.set(Some(value)),
+                Err(failure) => error.set(Some(failure)),
+            }
+        });
+    });
+
+    match (status(), error()) {
+        (_, Some(failure)) => rsx! {
+            p { class: "mt-4 text-amber-400", "Backend unavailable: {failure}" }
+        },
+        (Some(value), None) => rsx! {
+            p { class: "mt-4 text-emerald-400", "Backend: {value.status} ({value.service})" }
+        },
+        (None, None) => rsx! {
+            p { class: "mt-4 text-slate-400", "Checking backend..." }
+        },
+    }
 }

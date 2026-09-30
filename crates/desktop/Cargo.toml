@@ -7,13 +7,14 @@ authors.workspace = true
 
 [features]
 default = ["fullstack"]
-fullstack = ["dioxus/fullstack"]
+fullstack = ["dioxus/fullstack", "api/fullstack"]
 desktop = ["dioxus/desktop"]
 
 [dependencies]
 dioxus = { workspace = true, features = ["lib", "launch", "devtools"] }
+api = { workspace = true }
 core = { workspace = true }
-ui = { workspace = true, features = ["fullstack"] }
+ui = { workspace = true }
 
 [lints]
 workspace = true

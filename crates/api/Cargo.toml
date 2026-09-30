@@ -9,10 +9,19 @@ authors.workspace = true
 default = []
 fullstack = ["dep:dioxus"]
 server = ["fullstack", "dioxus/server"]
+# Plain-HTTP client adapter for browser SPAs. Deliberately excludes
+# `dioxus/fullstack`: enabling that makes the Dioxus CLI treat a package as a
+# fullstack server and run its native binary.
+http-client = ["dep:gloo-net"]
 
 [dependencies]
 dioxus = { workspace = true, features = ["lib", "fullstack"], optional = true }
+gloo-net = { workspace = true, optional = true }
+core = { workspace = true }
 serde = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
 
 [lints]
 workspace = true
