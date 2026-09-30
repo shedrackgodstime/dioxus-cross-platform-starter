@@ -1,5 +1,109 @@
 [application]
-# The web and fullstack packages are siblings of `ui`, so these paths are
-# resolved correctly for both runnable clients.
+name = "Dioxus Startup"
+description = "Cross-platform Dioxus application template"
+version = "0.1.0"
+authors = ["UTME Lab"]
+homepage = ""
+license = ""
+
+[application.window]
+# Desktop window defaults
+width = 1200
+height = 800
+min_width = 800
+min_height = 600
+resizable = true
+fullscreen = false
+visible = true
+decorations = true
+transparent = false
+always_on_top = false
+icon = "icons/icon.png"
+
+[application.bundle]
+# Platform-specific bundle identifiers
+identifier = "com.utmelab.dioxus-startup"
+publisher = "UTME Lab"
+copyright = "Copyright (c) 2026 UTME Lab"
+category = "DeveloperTool"
+short_description = "Cross-platform Dioxus application"
+long_description = ""
+
+[application.bundle.macos]
+# macOS-specific settings
+bundle_id = "com.utmelab.dioxus-startup"
+category = "public.app-category.developer-tools"
+signing_identity = ""  # Set for distribution
+provider_short_name = ""
+entitlements = ""
+info_plist = {}
+app_store = false
+
+[application.bundle.windows]
+# Windows-specific settings
+certificate_thumbprint = ""
+digest_algorithm = "sha256"
+timestamp_url = ""
+webview_install_mode = "download"
+
+[application.bundle.linux]
+# Linux-specific settings
+package_type = "deb"
+maintainer = "UTME Lab"
+vendor = "UTME Lab"
+license_file = ""
+section = "devel"
+
+[application.bundle.android]
+# Android-specific settings
+package = "com.utmelab.dioxus_startup"
+min_sdk_version = 24
+target_sdk_version = 34
+version_code = 1
+permissions = [
+    "INTERNET",
+    "ACCESS_NETWORK_STATE",
+]
+features = []
+application_icon = "icons/icon.png"
+round_icon = "icons/icon_round.png"
+adaptive_icon_foreground = "icons/adaptive_foreground.png"
+adaptive_icon_background = "icons/adaptive_background.png"
+
+[application.bundle.ios]
+# iOS-specific settings
+bundle_id = "com.utmelab.dioxus-startup"
+team_id = ""
+signing_identity = ""
+provisioning_profile = ""
+info_plist = {}
+app_store = false
+
+[build]
+# Build profiles
+profile = "release"
+target = ""
+
+[build.web]
+# Web build settings
+# base_path = ""  # Set for subpath deployments
+# wasm_opt_level = "z"
+
+[build.desktop]
+# Desktop build settings
+# app_icon = "icons/icon.ico"
+
+[build.mobile]
+# Mobile build settings
+
+[frontend]
+# Frontend tooling
 tailwind_input = "../ui/tailwind.css"
 tailwind_output = "../ui/assets/tailwind.css"
+
+[dev]
+# Development server settings
+port = 8080
+# ip = "127.0.0.1"
+# hot_reload = true
+# open = false
