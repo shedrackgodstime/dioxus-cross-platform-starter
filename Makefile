@@ -10,8 +10,8 @@ PORT ?= 8080
 WEB_PORT ?= 8081
 
 # API base baked into the web and native clients at compile time.
-DEV_SERVER_API_URL ?= http://127.0.0.1:$(PORT)
-
+DEV_SERVER_API_URL ?= http://10.101.124.151:$(PORT)
+DEV_SERVER_BIND ?= 0.0.0.0:$(PORT)
 ANDROID_TARGET ?= aarch64-linux-android
 ANDROID_DEVICE ?=
 ANDROID_PACKAGE ?= com.example.Mobile
@@ -44,11 +44,11 @@ serve-server:
 ##                 Run `make serve-server` too; the client calls the API at
 ##                 $(DEV_SERVER_API_URL).
 serve-web:
-	$(DX) serve --package web --port $(WEB_PORT)
+	$(DX) serve --package web --port $(WEB_PORT) --addr $(shell echo $(DEV_SERVER_BIND) | cut -d: -f1)
 
 ## serve-fullstack Run the web client and fullstack server together on $(PORT).
 serve-fullstack:
-	$(DX) serve --package fullstack
+	$(DX) serve --package fullstack --addr $(shell echo $(DEV_SERVER_BIND) | cut -d: -f1) --port $(shell echo $(DEV_SERVER_BIND) | cut -d: -f2)
 
 ## serve-android   Run the shared native client on Android.
 serve-android:
