@@ -5,15 +5,17 @@ edition.workspace = true
 rust-version.workspace = true
 authors.workspace = true
 
+# A pure client. There is deliberately no `fullstack` feature: enabling
+# `dioxus/fullstack` would make the Dioxus CLI run this as a server, bind a
+# port, and expose it. Use the `fullstack` crate when client and server are
+# meant to ship together.
 [features]
-default = ["fullstack"]
-fullstack = ["dioxus/fullstack", "api/fullstack"]
+default = []
 mobile = ["dioxus/mobile"]
 
 [dependencies]
 dioxus = { workspace = true, features = ["lib", "launch", "devtools"] }
-api = { workspace = true }
-core = { workspace = true }
+api = { workspace = true, features = ["native-client"] }
 ui = { workspace = true }
 
 [lints]

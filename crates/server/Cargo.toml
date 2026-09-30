@@ -20,3 +20,6 @@ api = { workspace = true, features = ["server"] }
 dioxus = { workspace = true, features = ["fullstack", "server"] }
 axum = { workspace = true }
 tower-http = { workspace = true }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt-multi-thread", "net"] }

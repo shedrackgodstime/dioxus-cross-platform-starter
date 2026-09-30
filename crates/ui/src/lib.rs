@@ -28,20 +28,23 @@ pub fn App() -> Element {
 
 #[component]
 fn BackendStatus() -> Element {
-    let Some(fetch) = try_use_context::<api::StatusFetcher>() else {
-        return rsx! {
-            p {
-                class: "mt-4 text-slate-400",
-                "No API transport was provided by the launcher."
-            }
-        };
-    };
+    // A fullstack server render already knows the answer synchronously, so it
+    // seeds the status and the server-rendered HTML shows a real value instead
+    // of a loading line that only resolves after hydration.
+    let pre_resolved = try_use_context::<api::ServerStatus>();
+    let fetch = try_use_context::<api::StatusFetcher>();
+    let has_transport = fetch.is_some();
 
-    let mut status = use_signal(|| None::<api::ServerStatus>);
+    let mut status = use_signal(|| pre_resolved);
     let mut error = use_signal(|| None::<String>);
 
+    // Cloned so the flag above stays readable in the render below; every hook
+    // still runs unconditionally.
+    let fetch_for_effect = fetch.clone();
     use_effect(move || {
-        let fetch = fetch.clone();
+        let Some(fetch) = fetch_for_effect.clone() else {
+            return;
+        };
         spawn(async move {
             match (fetch)().await {
                 Ok(value) => status.set(Some(value)),
@@ -50,14 +53,21 @@ fn BackendStatus() -> Element {
         });
     });
 
-    match (status(), error()) {
-        (_, Some(failure)) => rsx! {
-            p { class: "mt-4 text-amber-400", "Backend unavailable: {failure}" }
+    match (has_transport, status(), error()) {
+        (false, _, _) => rsx! {
+            p {
+                class: "mt-4 text-slate-400",
+                "No API transport was provided by the launcher."
+            }
         },
-        (Some(value), None) => rsx! {
+        // A known value beats a later transport failure.
+        (true, Some(value), _) => rsx! {
             p { class: "mt-4 text-emerald-400", "Backend: {value.status} ({value.service})" }
         },
-        (None, None) => rsx! {
+        (true, None, Some(failure)) => rsx! {
+            p { class: "mt-4 text-amber-400", "Backend unavailable: {failure}" }
+        },
+        (true, None, None) => rsx! {
             p { class: "mt-4 text-slate-400", "Checking backend..." }
         },
     }

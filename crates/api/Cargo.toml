@@ -13,10 +13,15 @@ server = ["fullstack", "dioxus/server"]
 # `dioxus/fullstack`: enabling that makes the Dioxus CLI treat a package as a
 # fullstack server and run its native binary.
 http-client = ["dep:gloo-net"]
+# Plain-HTTP adapter for native clients. Deliberately excludes
+# `dioxus/fullstack`, which would make the Dioxus CLI run a local server for the
+# client instead of leaving it a pure consumer of the API.
+native-client = ["dep:reqwest"]
 
 [dependencies]
 dioxus = { workspace = true, features = ["lib", "fullstack"], optional = true }
 gloo-net = { workspace = true, optional = true }
+reqwest = { workspace = true, optional = true }
 core = { workspace = true }
 serde = { workspace = true }
 

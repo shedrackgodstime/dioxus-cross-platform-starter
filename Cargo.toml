@@ -26,6 +26,13 @@ gloo-net = { version = "0.6", features = ["http", "json"] }
 
 axum = { version = "0.8", features = ["json"] }
 
+# Native HTTP client for the desktop and mobile clients. Matches the feature set
+# Dioxus itself uses, so the graph resolves without new crates.
+reqwest = { version = "0.12", default-features = false, features = [
+    "json",
+    "rustls-tls",
+] }
+
 # CORS for the API-only server. The standalone web client is served from a
 # different dev port than the API, so its cross-origin reads need this;
 # production serves the SPA same-origin and never relies on it.

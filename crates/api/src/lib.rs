@@ -76,6 +76,11 @@ pub fn server_fn_fetcher() -> StatusFetcher {
     })
 }
 
+/// Join an API base and path, tolerating a trailing slash on the base.
+fn join(base: &str, path: &str) -> String {
+    format!("{}{}", base.trim_end_matches('/'), path)
+}
+
 /// Backend status over plain HTTP.
 ///
 /// Defaults to same-origin, which is how a SPA and its API are deployed. Set
@@ -86,7 +91,7 @@ pub fn http_fetcher() -> StatusFetcher {
     Arc::new(|| {
         let future: StatusFuture = Box::pin(async {
             let url = match core::config::server_api_url_override() {
-                Some(base) => format!("{}{}", base.trim_end_matches('/'), STATUS_PATH),
+                Some(base) => join(base, STATUS_PATH),
                 None => STATUS_PATH.to_string(),
             };
 
@@ -96,6 +101,36 @@ pub fn http_fetcher() -> StatusFetcher {
                 .map_err(|failure| failure.to_string())?;
 
             if !response.ok() {
+                return Err(format!("backend returned HTTP {}", response.status()));
+            }
+
+            response
+                .json::<ServerStatus>()
+                .await
+                .map_err(|failure| failure.to_string())
+        });
+        future
+    })
+}
+
+/// Backend status over plain HTTP from a native client.
+///
+/// Native targets cannot use the browser adapter, and reaching for
+/// `dioxus/fullstack` to get server functions would make the Dioxus CLI treat
+/// them as a server, bind a port, and serve it. They are pure clients, so they
+/// speak HTTP directly and always have an absolute base URL, falling back to
+/// loopback via `core::config`.
+#[cfg(feature = "native-client")]
+pub fn native_fetcher() -> StatusFetcher {
+    Arc::new(|| {
+        let future: StatusFuture = Box::pin(async {
+            let url = join(core::config::server_api_url(), STATUS_PATH);
+
+            let response = reqwest::get(&url)
+                .await
+                .map_err(|failure| failure.to_string())?;
+
+            if !response.status().is_success() {
                 return Err(format!("backend returned HTTP {}", response.status()));
             }
 

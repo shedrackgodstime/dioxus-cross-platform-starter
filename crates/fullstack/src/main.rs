@@ -29,8 +29,12 @@ fn main() {
 /// Server-side render root.
 #[cfg(feature = "server")]
 fn app() -> Element {
-    // Answer from the canonical payload directly. Issuing a server-function
-    // call while rendering would round-trip to this same listener.
+    // `server_status` is pure and synchronous, so hand it to the UI as the
+    // starting value. The server-rendered HTML then shows the real status
+    // rather than a loading line.
+    use_context_provider(api::server_status);
+    // Same value, reachable through the normal transport for anything that
+    // re-fetches. Answering locally avoids a round-trip to this same listener.
     use_context_provider(local_fetcher);
     rsx! { ui::App {} }
 }

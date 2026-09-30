@@ -63,6 +63,7 @@ dependencies = [
  "core",
  "dioxus",
  "gloo-net",
+ "reqwest",
  "serde",
  "serde_json",
 ]
@@ -1025,7 +1026,6 @@ name = "desktop"
 version = "0.1.0"
 dependencies = [
  "api",
- "core",
  "dioxus",
  "ui",
 ]
@@ -3498,7 +3498,6 @@ name = "mobile"
 version = "0.1.0"
 dependencies = [
  "api",
- "core",
  "dioxus",
  "ui",
 ]
@@ -5047,6 +5046,7 @@ dependencies = [
  "api",
  "axum",
  "dioxus",
+ "tokio",
  "tower-http",
 ]
 
